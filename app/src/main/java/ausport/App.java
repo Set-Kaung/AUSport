@@ -3,13 +3,7 @@
  */
 package ausport;
 
-import java.util.List;
-
-import ausport.model.Gender;
-import ausport.model.Role;
-import ausport.model.User;
-import ausport.model.UserDAOImpl;
-
+import javafx.stage.Stage;
 
 // import ausport.model.*;
 // import ausport.util.PasswordHelper;
@@ -20,5 +14,4 @@ public class App {
     public static void main(String[] args) {
 
     }
-
 }
