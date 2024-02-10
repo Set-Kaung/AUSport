@@ -9,6 +9,10 @@ public enum Role{
     private Role(String label) {
         this.label = label;
     }
+
+    public String toString(){
+        return this.label;
+    }
     public static Role getRole(String role){
         switch (role) {
             case "admin":

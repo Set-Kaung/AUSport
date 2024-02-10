@@ -10,3 +10,5 @@ public interface UserDAO extends DAO {
     public List<User> getAll();
     
 }
+
+

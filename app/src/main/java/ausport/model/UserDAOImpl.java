@@ -2,6 +2,7 @@ package ausport.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ausport.util.PasswordHelper;
+
 
 public class UserDAOImpl implements UserDAO {
     private Connection connection;
@@ -39,8 +41,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public long insertUser(User u) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertUser'");
+        String query = "INSERT INTO users (username,hash,salt,role) VALUES(?,?,?,?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, u.getUsername());
+            stmt.setBytes(2, u.getPassword().getHash());
+            stmt.setBytes(3,u.getPassword().getSalt());
+            stmt.setString(4, u.getRole().toString());
+            long rows = stmt.executeUpdate();
+            return rows;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return 0;
     }
 
     @Override
