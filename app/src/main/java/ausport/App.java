@@ -7,24 +7,51 @@ import java.util.List;
 
 import ausport.model.User;
 import ausport.model.UserDAOImpl;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 // import ausport.model.*;
 // import ausport.util.PasswordHelper;
 // import static ausport.model.Role.ADMIN;
 
-public class App {
+public class App extends Application {
 
     public static void main(String[] args) {
-        UserDAOImpl userDAO = new UserDAOImpl();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.setPadding(new Insets(10, 30, 10, 30));
         try {
-            userDAO.connect();
-            List<User> users = userDAO.getAll();
-            for(User u : users){
-                System.out.printf("Username: %s, Role: %s \n", u.getUsername(), u.getRole());
+            UserDAOImpl UserDAO = new UserDAOImpl();
+            UserDAO.connect();
+            List<User> users = UserDAO.getAll();
+            for(User u: users){
+                Text t = new Text();
+                t.setFont(Font.font("sans", FontWeight.MEDIUM, 18));
+                t.setText("Username: "+u.getUsername() + " Role: " + u.getRole());
+                vBox.getChildren().add(t);
             }
-            userDAO.close();
+            UserDAO.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        Group root = new Group(vBox);
+        Scene scene = new Scene(root,500,500, Color.rgb(180, 200, 220));
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
