@@ -2,7 +2,6 @@ package ausport.model;
 
 import java.util.List;
 
-import javax.naming.spi.ResolveResult;
 
 public interface ReservationDAO extends DAO {
     Reservation getReservationByUsername(String username);

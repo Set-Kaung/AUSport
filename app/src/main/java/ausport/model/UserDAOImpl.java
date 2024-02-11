@@ -58,15 +58,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean updateUser(User u) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
+    public long updateUser(User u) {
+        return 0;
     }
 
     @Override
-    public boolean deleteUser(User u) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
+    public long deleteUser(User u) {
+       return 0;
     }
 
     @Override

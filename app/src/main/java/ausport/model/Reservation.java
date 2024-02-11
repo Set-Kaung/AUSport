@@ -1,7 +1,5 @@
 package ausport.model;
 
-import java.time.LocalDateTime;
-
 import java.time.*;
 
 public class Reservation {
@@ -12,8 +10,19 @@ public class Reservation {
     private LocalDateTime endTime;
     private Duration duration;
 
-
-
+    public Reservation(int fieldID, String username, LocalDateTime startTime, LocalDateTime endTime) {
+        this.fieldID = fieldID;
+        this.username = username;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    public Reservation(int id, int fieldID, String username, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.fieldID = fieldID;
+        this.username = username;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
     public int getFieldID() {
         return fieldID;
     }

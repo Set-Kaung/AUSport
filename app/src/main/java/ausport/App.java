@@ -3,12 +3,6 @@
  */
 package ausport;
 
-import javafx.stage.Stage;
-
-// import ausport.model.*;
-// import ausport.util.PasswordHelper;
-// import static ausport.model.Role.ADMIN;
-
 public class App {
 
     public static void main(String[] args) {
