@@ -2,6 +2,7 @@ package ausport.model;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,29 @@ public class FieldDAOImpl implements FieldDAO {
 
     @Override
     public boolean checkConnection() throws Exception {
-      return false;
+        try{
+            if(connection == null){
+                return false;
+            }else{
+                return connection.isValid(5);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     @Override
     public void close() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'close'");
+        if(this.checkConnection()){
+            connection.close();
+       }
+       try {
+        DriverManager.getConnection("jdbc:mysql://localhost:3306/AUSport?shutdown=true", "au_admin", "admin1234");
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
     @Override
@@ -44,7 +61,7 @@ public class FieldDAOImpl implements FieldDAO {
                 fields.add(f);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "in FieldDAO");
         }
         return fields;
     }

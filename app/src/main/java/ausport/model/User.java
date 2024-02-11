@@ -1,18 +1,18 @@
 package ausport.model;
 
-import ausport.util.PasswordHelper;
+import ausport.util.HashedPassword;
 
 
 
 public class User {
     private String username;
-    private PasswordHelper password;
+    private HashedPassword password;
     private Role role;
     
     public User(String studentID){
         this.username = studentID;
     }
-    public User(String username, PasswordHelper password, Role role){
+    public User(String username, HashedPassword password, Role role){
         this.username = username;
         this.password = password;
         this.role = role;
@@ -26,11 +26,11 @@ public class User {
     }
     
 
-    public PasswordHelper getPassword() {
+    public HashedPassword getPassword() {
         return password;
     }
 
-    public void setPassword(PasswordHelper password) {
+    public void setPassword(HashedPassword password) {
         this.password = password;
     }
 

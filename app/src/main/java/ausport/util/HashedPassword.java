@@ -8,11 +8,11 @@ import org.bouncycastle.crypto.params.Argon2Parameters;
 
 import ausport.model.User;
 
-public class PasswordHelper {
+public class HashedPassword {
     private final byte[] hash;
     private final byte[] salt;
 
-    public PasswordHelper(byte[] hashedPassword, byte[] salt) {
+    public HashedPassword(byte[] hashedPassword, byte[] salt) {
         this.hash = hashedPassword;
         this.salt = salt;
     }
@@ -30,10 +30,10 @@ public class PasswordHelper {
         return Arrays.equals(loginHash, dbUser.getPassword().getHash());
     }
 
-    public static PasswordHelper getHashedPassword(String password){
+    public static HashedPassword getHashedPassword(String password){
         byte[] salt = generateSalt();
         byte[] pass = hashWithArgon2(password, salt);
-        return new PasswordHelper(pass, salt) ;
+        return new HashedPassword(pass, salt) ;
     }
 
     private static byte[] hashWithArgon2(String password,byte[] salt) {

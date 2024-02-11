@@ -9,11 +9,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import ausport.util.PasswordHelper;
+import ausport.util.HashedPassword;
 
 
 public class UserDAOImpl implements UserDAO {
     private Connection connection;
+
+    public UserDAOImpl(Connection connection){
+        this.connection = connection;
+    }
     
     @Override
     public void setup() throws Exception {
@@ -23,13 +27,21 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean checkConnection() throws Exception {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/AUSport", "au_admin", "admin1234");
+        try{
+            if(connection == null){
+                return false;
+            }else{
+                return connection.isValid(5);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 
     @Override
     public void close() throws Exception {
-       if(connection.isValid(3)){
+       if(this.checkConnection()){
             connection.close();
        }
        try {
@@ -59,11 +71,29 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public long updateUser(User u) {
+        String query = "UPDATE users SET hash = ?, salt = ? WHERE username = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setBytes(1, u.getPassword().getHash());
+            stmt.setBytes(2, u.getPassword().getSalt());
+            stmt.setString(3, u.getUsername());
+            return stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return 0;
     }
 
     @Override
     public long deleteUser(User u) {
+       String query = "DELETE FROM users WHERE username = ?";
+       try {
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, u.getUsername());
+        return stmt.executeUpdate();
+       } catch (Exception e) {
+        System.out.println(e.getMessage());
+       }
        return 0;
     }
 
@@ -79,13 +109,37 @@ public class UserDAOImpl implements UserDAO {
                 byte[] hash = s.getBytes("hash");
                 byte[] salt = s.getBytes("salt");
                 String role = s.getString("role");
-                User u = new User(username, new PasswordHelper(hash, salt), Role.getRole(role));
+                User u = new User(username, new HashedPassword(hash, salt), Role.getRole(role));
                 users.add(u);
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
         return users;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+       String query = "SELECT * FROM users WHERE username = ?";
+       try {
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, username);
+            ResultSet s = stmt.executeQuery();
+            if(!s.isBeforeFirst()){
+                return null;
+            }else{
+                s.next();
+                String userName = s.getString("username");
+                byte[] hash = s.getBytes("hash");
+                byte[] salt = s.getBytes("salt");
+                String role = s.getString("role");
+                User u = new User(userName,new HashedPassword(hash, salt), Role.getRole(role));
+                return u;
+            }
+       } catch (Exception e) {
+            System.out.println(e.getMessage());
+       }
+       return null;
     }
 
 }
