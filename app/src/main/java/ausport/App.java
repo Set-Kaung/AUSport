@@ -18,16 +18,7 @@ import ausport.model.UserDAOImpl;
 public class App {
 
     public static void main(String[] args) {
-            Gender g2 = Gender.MALE;
-            switch (g2) {
-                case Gender.MALE:
-                    System.out.println("This is a male!");
-                    break;
-                default:
-                    System.out.println("This is a female.");
-                    break;
-            }
-            
+
     }
 
 }
