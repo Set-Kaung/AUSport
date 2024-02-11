@@ -11,9 +11,8 @@ public class FieldDAOImpl implements FieldDAO {
     }
 
     @Override
-    public void connect() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'connect'");
+    public boolean checkConnection() throws Exception {
+      return false;
     }
 
     @Override

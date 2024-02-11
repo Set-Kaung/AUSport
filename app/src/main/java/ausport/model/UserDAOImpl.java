@@ -22,8 +22,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void connect() throws Exception {
+    public boolean checkConnection() throws Exception {
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/AUSport", "au_admin", "admin1234");
+        return false;
     }
 
     @Override
